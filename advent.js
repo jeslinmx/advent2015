@@ -219,7 +219,34 @@ solutions[10] = function (input) { // look-say
 }
 
 solutions[11] = function (input) {
-	
+	var increment = function (input) {
+		var overflow = false, result = input, cur = result.length - 1;
+		do {
+			if (result[cur] == 'z') {
+				result[cur] = 'a';
+				overflow = true;
+				cur--;
+				continue;
+			}
+			result[cur] = String.fromCharCode(result[cur].charCodeAt(0) + 1);
+			overflow = false;
+		} while (overflow)
+		return result;
+	};
+	var result = input.split("");
+	outer:
+	while (true) {
+		result = increment(result);
+		var incr = false, repeat = 0;
+		for (var i = 0; i < result.length; i++) {
+			if ((result[i] == 'i') || (result[i] == 'o') || (result[i] == 'l')) continue outer;
+			if ((result[i] == result[i + 1]) && (result[i] != result[i - 1])) repeat++;
+			if ((i >= 2) && (result[i].charCodeAt(0) == (result[i - 1].charCodeAt(0) + 1)) && (result[i].charCodeAt(0) == (result[i - 2].charCodeAt(0) + 2))) incr = true;
+		}
+		if ((repeat < 2) || (!incr)) continue outer;
+		break;
+	}
+	return result.join("");
 }
 
 solutions[12] = function (input) {
