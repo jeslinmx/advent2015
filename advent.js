@@ -2,7 +2,7 @@
 
 var solutions = [];
 
-solutions[0] = null;
+solutions[0] = null; // happy holidays!
 
 solutions[1] = function (input) { // floor traversal
 	var floor = 0;
