@@ -253,8 +253,27 @@ solutions[12] = function (input) { // find numbers
 	return input.match(/-?[0-9]+/g).reduce(function(p, c) { return Number(p) + Number(c); });
 }
 
-solutions[13] = function (input) {
-	
+solutions[13] = function (input) { // circular tsp (code adapted from day 9)
+	var list = input.split('\n').map(function (c) { return c.slice(0, -1).split(' ') }), people = [], vertices = [], max = -Infinity;
+	list.forEach(function (c) {
+		var a = people.indexOf(c[0]); (a == -1) && (a = (people.push(c[0]) - 1));
+		var b = people.indexOf(c[10]); (b == -1) && (b = (people.push(c[10]) - 1));
+		vertices[a] = vertices[a] || [];
+		vertices[b] = vertices[b] || [];
+		vertices[a][b] = parseInt(c[3]) * ((c[2] == 'gain') * 2 - 1);
+	})
+	outer:
+	for (var i = Math.pow(vertices.length, vertices.length - 2); i < Math.pow(vertices.length, vertices.length); i++) {
+		var path = i.toString(vertices.length); path = (path.length < vertices.length) ? "0" + path : path; path = path.split("").map(Number);
+		var visited = new Uint8Array(vertices.length);
+		var length = (vertices[path[0]][path[path.length - 1]] + vertices[path[path.length - 1]][path[0]]);
+		for (var j = 0; j < path.length; j++) {
+			if (++visited[path[j]] > 1) continue outer;
+			if (j >= 1) length += (vertices[path[j]][path[j - 1]] + vertices[path[j - 1]][path[j]]);
+		}
+		max = (length > max) ? length : max
+	}
+	return max;
 }
 
 solutions[14] = function (input) {
