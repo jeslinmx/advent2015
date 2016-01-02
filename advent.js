@@ -276,8 +276,11 @@ solutions[13] = function (input) { // circular tsp (code adapted from day 9)
 	return max;
 }
 
-solutions[14] = function (input) {
-	
+solutions[14] = function (input) { // racing reindeer
+	return Math.max(...input.trim().split("\n").map(function(c) { return c.split(" ").map(Number); }).map(function(values) {
+		return ((Math.ceil(2503 / (values[6] + values[13])) * values [3] * values[6]) - (Math.max((values[6] - (2503 % (values[6] + values[13]))), 0) * values[3]));
+
+	}));
 }
 
 solutions[15] = function (input) {
