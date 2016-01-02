@@ -250,7 +250,7 @@ solutions[11] = function (input) {
 }
 
 solutions[12] = function (input) {
-	
+	return input.match(/-?[0-9]+/g).reduce(function(p, c) { return Number(p) + Number(c); });
 }
 
 solutions[13] = function (input) {
