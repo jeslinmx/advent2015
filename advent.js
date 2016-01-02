@@ -283,8 +283,48 @@ solutions[14] = function (input) { // racing reindeer
 	}));
 }
 
-solutions[15] = function (input) {
-	
+solutions[15] = function (input) { // cookie score
+	var Permutator = function (beans, bowls) {
+		this.beans = beans; this.bowls = bowls;
+		this.done = false;
+		this.current = -1;
+		this[Symbol.iterator] = function () { return new Permutator(this.beans, this.bowls); };
+		this.next = function () {
+			if (!this.done) {
+				if (this.bowls == 2) {
+					this.current++;
+					this.done = (this.current >= this.beans);
+					return { value: [this.current, this.beans - this.current], done: false};
+				}
+				else {
+					var subresult;
+					if ((!this.subpermutator) || ((subresult = this.subpermutator.next()) && (subresult.done))) {
+						if (this.done = (this.current == this.beans)) return this.next();
+						this.current++;
+						this.subpermutator = new Permutator((this.beans - this.current), (this.bowls - 1));
+						subresult = this.subpermutator.next();
+					}
+					return { value: [this.current, ...subresult.value], done: false};
+				}
+			}
+			else return { value: undefined, done: true};
+		}
+	}
+	var ingred = input.trim().replace(/,/g, "").split('\n').map(function(c) { return c.split(' ').map(Number).filter(function (c) { return !isNaN(c);}) });
+	var permutations = new Permutator(100, ingred.length);
+	var max = -Infinity;
+	for (var quantities of permutations) {
+		var score = 1;
+		for (var i = 0; i < 4; i++) {
+			var prop = 0;
+			for (var j in ingred) {
+				prop += quantities[j] * ingred[j][i];
+			}
+			score *= Math.max(prop, 0);
+		}
+		max = (score > max) ? score : max;
+	}
+	return max;
 }
 
 solutions[16] = function (input) {
