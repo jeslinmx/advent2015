@@ -218,7 +218,7 @@ solutions[10] = function (input) { // look-say
 	return cur.length;
 }
 
-solutions[11] = function (input) {
+solutions[11] = function (input) { // password generator
 	var increment = function (input) {
 		var overflow = false, result = input, cur = result.length - 1;
 		do {
@@ -249,7 +249,7 @@ solutions[11] = function (input) {
 	return result.join("");
 }
 
-solutions[12] = function (input) {
+solutions[12] = function (input) { // find numbers
 	return input.match(/-?[0-9]+/g).reduce(function(p, c) { return Number(p) + Number(c); });
 }
 
